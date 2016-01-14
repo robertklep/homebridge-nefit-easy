@@ -1,0 +1,17 @@
+{
+  "name": "homebridge-nefit-easy",
+  "version": "1.0.0",
+  "description": "Homebridge plugin for Nefit Easy™",
+  "main": "index.js",
+  "keywords": [ "homebridge-plugin" ],
+  "engines": {
+    "node": ">=4.0.0",
+    "homebridge": ">=0.2.0"
+  },
+  "repository": "robertklep/homebridge-nefit-easy",
+  "author": "Robert Klep <robert@klep.name>",
+  "license": "MIT",
+  "dependencies": {
+    "nefit-easy-commands": "^1.0.5"
+  }
+}
