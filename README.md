@@ -25,9 +25,9 @@ Once you have that working, edit `~/.homebridge/config.json` and add a new acces
         "accessory"      : "NefitEasy",
         "name"           : "thermostaat",
         "authentication" : {
-            "serialNumber" : NEFIT_SERIAL_NUMBER,
-            "accessKey"    : NEFIT_ACCESS_KEY,
-            "password"     : NEFIT_PASSWORD
+            "serialNumber" : "NEFIT_SERIAL_NUMBER",
+            "accessKey"    : "NEFIT_ACCESS_KEY",
+            "password"     : "NEFIT_PASSWORD"
         }
     }
 ]
