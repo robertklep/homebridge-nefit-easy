@@ -7,7 +7,7 @@ Uses the [`nefit-easy-commands`](https://github.com/robertklep/nefit-easy-comman
 ## Installation
 
 ```
-$ npm i robertklep/homebridge-nefit-easy -g
+$ npm i homebridge-nefit-easy -g
 ```
 
 Homebridge plugins need to be installed globally, so the `-g` is mandatory.
