@@ -35,7 +35,7 @@ NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
   this.log('Getting %s temperature...', type);
 
   this.client.connect().then(() => {
-    return this.client.status();
+    return this.client.status(true);
   }).then((status) => {
     var temp = status[prop];
     this.log('...%s temperature is %s', type, temp);
