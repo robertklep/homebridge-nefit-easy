@@ -22,9 +22,9 @@ Once you have that working, edit `~/.homebridge/config.json` and add a new acces
 "accessories": [
     ...
     {
-        "accessory"      : "NefitEasy",
-        "name"           : "thermostaat",
-        "authentication" : {
+        "accessory" : "NefitEasy",
+        "name"      : "thermostaat",
+        "options"   : {
             "serialNumber" : "NEFIT_SERIAL_NUMBER",
             "accessKey"    : "NEFIT_ACCESS_KEY",
             "password"     : "NEFIT_PASSWORD"
@@ -34,7 +34,8 @@ Once you have that working, edit `~/.homebridge/config.json` and add a new acces
 ```
 
 * The `name` will be the identifier that you can use, for example, in Siri commands;
-* Replace `NEFIT_*` with the correct values.
+* Replace `NEFIT_*` with the correct values;
+* Any additional options get passed to the [`nefit-easy-core` constructor](https://github.com/robertklep/nefit-easy-core#constructor).
 
 ## Supported actions
 

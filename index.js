@@ -11,7 +11,7 @@ function NefitEasyAccessory(log, config) {
   this.log     = log;
   this.name    = config.name;
   this.service = new Service.Thermostat(this.name);
-  this.client  = NefitEasyClient(config.authentication);
+  this.client  = NefitEasyClient(config.options || config.authentication);
 
   this.service
       .getCharacteristic(Characteristic.TemperatureDisplayUnits)
@@ -38,7 +38,7 @@ NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
     return this.client.status();
   }).then((status) => {
     var temp = status[prop];
-    this.log('...current temperature is', temp);
+    this.log('...%s temperature is %s', type, temp);
     return callback(null, temp);
   }).catch((e) => {
     console.error(e.stack);

@@ -12,6 +12,6 @@
   "author": "Robert Klep <robert@klep.name>",
   "license": "MIT",
   "dependencies": {
-    "nefit-easy-commands": "^1.0.5"
+    "nefit-easy-commands": "^1.7.1"
   }
 }
