@@ -10,8 +10,16 @@ module.exports = function(homebridge) {
 function NefitEasyAccessory(log, config) {
   this.log     = log;
   this.name    = config.name;
+
+  // Make sure that the credentials are there.
+  var creds = config.options || config.authentication;
+  if (! creds || typeof creds.serialNumber !== 'string' ||
+      typeof creds.accessKey !== 'string' || typeof creds.password !== 'string') {
+    throw Error('[homebridge-nefit-easy] Invalid/missing credentials in configuration file.');
+  }
+
   this.service = new Service.Thermostat(this.name);
-  this.client  = NefitEasyClient(config.options || config.authentication);
+  this.client  = NefitEasyClient(creds);
 
   this.service
       .getCharacteristic(Characteristic.TemperatureDisplayUnits)
