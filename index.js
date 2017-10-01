@@ -31,7 +31,7 @@ function NefitEasyAccessory(log, config) {
 
   this.service
     .getCharacteristic(Characteristic.TargetTemperature)
-    .on('get', this.getTemperature.bind(this, 'target', 'temp override temp setpoint'))
+    .on('get', this.getTemperature.bind(this, 'target', 'temp setpoint'))
     .on('set', this.setTemperature.bind(this));
 
   this.service
