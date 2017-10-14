@@ -1,8 +1,8 @@
 # Homebridge Nefit Easy™ plugin
 
-This is a plugin for [Homebridge](https://github.com/nfarina/homebridge) to allow controlling your Nefit Easy™ thermostat through iOS' HomeKit.
+This is a plugin for [Homebridge](https://github.com/nfarina/homebridge) to allow controlling your Nefit Easy™ (aka Worcester Wave™, Junkers Control™) thermostat through iOS' HomeKit.
 
-Uses the [`nefit-easy-commands`](https://github.com/robertklep/nefit-easy-commands) module under the hood to communicate with the Nefit backend.
+Uses the [`nefit-easy-commands`](https://github.com/robertklep/nefit-easy-commands) module under the hood to communicate with the Nefit/Bosch backend.
 
 ## Installation
 
