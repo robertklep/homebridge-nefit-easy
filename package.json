@@ -1,10 +1,10 @@
 {
   "name": "homebridge-nefit-easy",
-  "version": "1.3.0",
-  "description": "Homebridge plugin for Nefit Easy™",
+  "version": "1.3.1",
+  "description": "Homebridge plugin for Nefit Easy™ (aka Worcester Wave™, Junkers Control™)",
   "main": "index.js",
   "keywords": [
-    "homebridge-plugin"
+    "homebridge-plugin", "nefit easy", "worcester wave", "junkers control", "bosch"
   ],
   "engines": {
     "node": ">=4.0.0",
