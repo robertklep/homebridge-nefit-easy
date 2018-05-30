@@ -1,19 +1,23 @@
 {
   "name": "homebridge-nefit-easy",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "description": "Homebridge plugin for Nefit Easy™ (aka Worcester Wave™, Junkers Control™)",
   "main": "index.js",
   "keywords": [
-    "homebridge-plugin", "nefit easy", "worcester wave", "junkers control", "bosch"
+    "homebridge-plugin",
+    "nefit easy",
+    "worcester wave",
+    "junkers control",
+    "bosch"
   ],
   "engines": {
-    "node": ">=4.0.0",
+    "node": ">=6.0.0",
     "homebridge": ">=0.2.0"
   },
   "repository": "robertklep/homebridge-nefit-easy",
   "author": "Robert Klep <robert@klep.name>",
   "license": "MIT",
   "dependencies": {
-    "nefit-easy-commands": "^1.7.1"
+    "nefit-easy-commands": "^2.0.0"
   }
 }

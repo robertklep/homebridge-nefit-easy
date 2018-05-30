@@ -6,6 +6,8 @@ Uses the [`nefit-easy-commands`](https://github.com/robertklep/nefit-easy-comman
 
 ## Installation
 
+_This library requires Node.js 6.0.0 or later!_
+
 ```
 $ npm i homebridge-nefit-easy -g
 ```
