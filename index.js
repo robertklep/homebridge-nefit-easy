@@ -55,6 +55,9 @@ NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
 };
 
 NefitEasyAccessory.prototype.setTemperature = function(temp, callback) {
+  // Round off to nearest half/full.
+  temp = Math.round(temp * 2) / 2;
+
   this.log('Setting temperature to %s', temp);
   this.client.connect().then(() => {
     return this.client.setTemperature(temp);
