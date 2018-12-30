@@ -49,7 +49,7 @@ NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
     this.log('...%s temperature is %s', type, temp);
     return callback(null, temp);
   }).catch((e) => {
-    console.error(e.stack);
+    console.error(e);
     return callback(e);
   });
 };
@@ -82,7 +82,7 @@ NefitEasyAccessory.prototype.getCurrentState = function(callback) {
                   Characteristic.CurrentHeatingCoolingState.OFF
     );
   }).catch((e) => {
-    console.error(e.stack);
+    console.error(e);
     return callback(e);
   });
 };
