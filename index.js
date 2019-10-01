@@ -40,13 +40,13 @@ function NefitEasyAccessory(log, config) {
 };
 
 NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
-  this.log('Getting %s temperature...', type);
+  this.log.debug('Getting %s temperature...', type);
 
   this.client.connect().then(() => {
     return this.client.status(true);
   }).then((status) => {
     var temp = status[prop];
-    this.log('...%s temperature is %s', type, temp);
+    this.log.debug('...%s temperature is %s', type, temp);
     return callback(null, temp);
   }).catch((e) => {
     console.error(e);
@@ -58,7 +58,7 @@ NefitEasyAccessory.prototype.setTemperature = function(temp, callback) {
   // Round off to nearest half/full.
   temp = Math.round(temp * 2) / 2;
 
-  this.log('Setting temperature to %s', temp);
+  this.log.info('Setting temperature to %s', temp);
   this.client.connect().then(() => {
     return this.client.setTemperature(temp);
   }).then(() => {
@@ -69,14 +69,14 @@ NefitEasyAccessory.prototype.setTemperature = function(temp, callback) {
 };
 
 NefitEasyAccessory.prototype.getCurrentState = function(callback) {
-  this.log('Getting current state..');
+  this.log.debug('Getting current state..');
 
   this.client.connect().then(() => {
     return this.client.status();
   }).then((status) => {
     var state     = status['boiler indicator'];
     var isHeating = state === 'central heating';
-    this.log('...current state is', state);
+    this.log.debug('...current state is', state);
     return callback(null,
       isHeating ? Characteristic.CurrentHeatingCoolingState.HEAT :
                   Characteristic.CurrentHeatingCoolingState.OFF
