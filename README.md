@@ -14,6 +14,18 @@ $ npm i homebridge-nefit-easy -g
 
 Homebridge plugins need to be installed globally, so the `-g` is mandatory.
 
+## Problems on recent Linux distributions
+
+If you're having problems getting any data from the HTTP server, and you're using a recent Linux distribution (for instance, Raspbian Buster), take a look at [this comment](https://github.com/robertklep/nefit-easy-http-server/issues/35#issuecomment-510818042).
+
+In short: OpenSSL defaults have changed to require a minimum TLS version and cipher implementation. These defaults cause the Nefit client code to not be able to connect to the Nefit/Bosch backend.
+
+The solution is mentioned [here](https://www.debian.org/releases/stable/amd64/release-notes/ch-information.en.html#openssl-defaults): edit the file `/etc/ssl/openssl.cnf` and change the following keys to these values:
+```
+MinProtocol = None
+CipherString = DEFAULT
+```
+
 ## Configuration
 
 First, you need a working Homebridge installation.
