@@ -53,6 +53,9 @@ NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
       this.log.debug('...%s temperature is %s', type, temp);
       return callback(null, temp);
     }
+    else {
+      return callback(new Error("Device returned NaN as temperature value."));
+    }
   }).catch((e) => {
     console.error(e);
     return callback(e);
