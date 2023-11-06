@@ -1,6 +1,5 @@
 const NefitEasyClient = require('nefit-easy-commands');
 var Service, Characteristic;
-var serialNumber;
 
 module.exports = function(homebridge) {
   Service        = homebridge.hap.Service;
@@ -19,7 +18,7 @@ function NefitEasyAccessory(log, config) {
     throw Error('[homebridge-nefit-easy] Invalid/missing credentials in configuration file.');
   }
 
-  serialNumber = creds.serialNumber;
+  this.serialNumber = creds.serialNumber;
 
   this.service = new Service.Thermostat(this.name);
   this.client  = NefitEasyClient(creds);
@@ -99,7 +98,7 @@ NefitEasyAccessory.prototype.getServices = function() {
   const informationService = new Service.AccessoryInformation()
         .setCharacteristic(Characteristic.Manufacturer, 'Nefit')
         .setCharacteristic(Characteristic.Model, 'Easy')
-        .setCharacteristic(Characteristic.SerialNumber, serialNumber)
+        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber)
   
   return [informationService, this.service];
 };
