@@ -23,9 +23,14 @@ function NefitEasyAccessory(log, config) {
   this.service = new Service.Thermostat(this.name);
   this.client  = NefitEasyClient(creds);
 
+  // Establish connection with device.
+  this.client.connect().catch((e) => {
+    throw error(e);
+  });
+
   this.service
-      .getCharacteristic(Characteristic.TemperatureDisplayUnits)
-      .on('get', (callback) => callback(null, Characteristic.TemperatureDisplayUnits.CELSIUS));
+    .getCharacteristic(Characteristic.TemperatureDisplayUnits)
+    .on('get', (callback) => callback(null, Characteristic.TemperatureDisplayUnits.CELSIUS));
 
   this.service
     .getCharacteristic(Characteristic.CurrentTemperature)
@@ -98,7 +103,7 @@ NefitEasyAccessory.prototype.getServices = function() {
   const informationService = new Service.AccessoryInformation()
         .setCharacteristic(Characteristic.Manufacturer, 'Nefit')
         .setCharacteristic(Characteristic.Model, 'Easy')
-        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber)
-  
+        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber);
+
   return [informationService, this.service];
 };
