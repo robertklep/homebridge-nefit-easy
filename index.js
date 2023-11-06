@@ -44,6 +44,10 @@ function NefitEasyAccessory(log, config) {
   this.service
     .getCharacteristic(Characteristic.CurrentHeatingCoolingState)
     .on('get', this.getCurrentState.bind(this));
+
+  this.service
+    .getCharacteristic(Characteristic.TargetHeatingCoolingState)
+    .on('get', this.getCurrentState.bind(this));
 };
 
 NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
