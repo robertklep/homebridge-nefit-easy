@@ -4,7 +4,18 @@ var Service, Characteristic;
 module.exports = function(homebridge) {
   Service        = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
+  
   homebridge.registerAccessory('homebridge-nefit-easy', 'NefitEasy', NefitEasyAccessory);
+  homebridge.registerAccessory('homebridge-nefit-easy', 'NefitEasyOutdoorTemp', NefitEasyAccessoryOutdoorTemp);
+};
+
+const nefitEasyServices = function() {
+  const informationService = new Service.AccessoryInformation()
+        .setCharacteristic(Characteristic.Manufacturer, 'Nefit')
+        .setCharacteristic(Characteristic.Model, 'Easy')
+        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber);
+
+  return [informationService, this.service];
 };
 
 function NefitEasyAccessory(log, config) {
@@ -34,11 +45,11 @@ function NefitEasyAccessory(log, config) {
 
   this.service
     .getCharacteristic(Characteristic.CurrentTemperature)
-    .on('get', this.getTemperature.bind(this, 'current', 'in house temp'));
+    .on('get', this.getTemperature.bind(this, 'current', 'in house temp', true));
 
   this.service
     .getCharacteristic(Characteristic.TargetTemperature)
-    .on('get', this.getTemperature.bind(this, 'target', 'temp setpoint'))
+    .on('get', this.getTemperature.bind(this, 'target', 'temp setpoint', true))
     .on('set', this.setTemperature.bind(this))
     .setProps({maxValue: 30});
 
@@ -61,11 +72,11 @@ function NefitEasyAccessory(log, config) {
       });
 };
 
-NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
+const nefitEasyGetTemp = function(type, prop, skipOutdoor, callback) {
   this.log.debug('Getting %s temperature...', type);
 
   this.client.connect().then(() => {
-    return this.client.status(true);
+    return this.client.status(skipOutdoor);
   }).then((status) => {
     var temp = status[prop];
     if (!isNaN(temp) && isFinite(temp)) {
@@ -80,6 +91,8 @@ NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
     return callback(e);
   });
 };
+
+NefitEasyAccessory.prototype.getTemperature = nefitEasyGetTemp;
 
 NefitEasyAccessory.prototype.setTemperature = function(temp, callback) {
   // Round off to nearest half/full.
@@ -114,11 +127,34 @@ NefitEasyAccessory.prototype.getCurrentState = function(offState, callback) {
   });
 };
 
-NefitEasyAccessory.prototype.getServices = function() {
-  const informationService = new Service.AccessoryInformation()
-        .setCharacteristic(Characteristic.Manufacturer, 'Nefit')
-        .setCharacteristic(Characteristic.Model, 'Easy')
-        .setCharacteristic(Characteristic.SerialNumber, this.serialNumber);
+NefitEasyAccessory.prototype.getServices = nefitEasyServices;
 
-  return [informationService, this.service];
+function NefitEasyAccessoryOutdoorTemp(log, config) {
+  this.log     = log;
+  this.name    = config.name;
+
+  // Make sure that the credentials are there.
+  var creds = config.options || config.authentication;
+  if (! creds || typeof creds.serialNumber !== 'string' ||
+      typeof creds.accessKey !== 'string' || typeof creds.password !== 'string') {
+    throw Error('[homebridge-nefit-easy] Invalid/missing credentials in configuration file.');
+  }
+
+  this.serialNumber = creds.serialNumber;
+
+  this.service = new Service.TemperatureSensor(this.name);
+  this.client  = NefitEasyClient(creds);
+
+  // Establish connection with device.
+  this.client.connect().catch((e) => {
+    throw error(e);
+  });
+
+  this.service
+    .getCharacteristic(Characteristic.CurrentTemperature)
+    .on('get', this.getTemperature.bind(this, 'outdoor', 'outdoor temp', false));
 };
+
+NefitEasyAccessoryOutdoorTemp.prototype.getTemperature = nefitEasyGetTemp;
+
+NefitEasyAccessoryOutdoorTemp.prototype.getServices = nefitEasyServices;
