@@ -28,11 +28,6 @@ function NefitEasyAccessory(log, config) {
     throw error(e);
   });
 
-  this.service.getCharacteristic(Characteristic.CurrentHeatingCoolingState).props.validValues =
-    [Characteristic.CurrentHeatingCoolingState.OFF, Characteristic.CurrentHeatingCoolingState.HEAT];
-  this.service.getCharacteristic(Characteristic.TargetHeatingCoolingState).props.validValues =
-    [Characteristic.CurrentHeatingCoolingState.HEAT, Characteristic.TargetHeatingCoolingState.AUTO];
-
   this.service
     .getCharacteristic(Characteristic.TemperatureDisplayUnits)
     .on('get', (callback) => callback(null, Characteristic.TemperatureDisplayUnits.CELSIUS));
@@ -44,15 +39,26 @@ function NefitEasyAccessory(log, config) {
   this.service
     .getCharacteristic(Characteristic.TargetTemperature)
     .on('get', this.getTemperature.bind(this, 'target', 'temp setpoint'))
-    .on('set', this.setTemperature.bind(this));
+    .on('set', this.setTemperature.bind(this))
+    .setProps({maxValue: 30});
 
   this.service
     .getCharacteristic(Characteristic.CurrentHeatingCoolingState)
-    .on('get', this.getCurrentState.bind(this, Characteristic.CurrentHeatingCoolingState.OFF));
+    .on('get', this.getCurrentState.bind(this, Characteristic.CurrentHeatingCoolingState.OFF))
+    .setProps(
+      {validValues: 
+        [Characteristic.CurrentHeatingCoolingState.OFF, 
+         Characteristic.CurrentHeatingCoolingState.HEAT]
+      });
 
   this.service
     .getCharacteristic(Characteristic.TargetHeatingCoolingState)
-    .on('get', this.getCurrentState.bind(this, Characteristic.TargetHeatingCoolingState.AUTO));
+    .on('get', this.getCurrentState.bind(this, Characteristic.TargetHeatingCoolingState.AUTO))
+    .setProps(
+      {validValues:
+        [Characteristic.TargetHeatingCoolingState.HEAT,
+         Characteristic.TargetHeatingCoolingState.AUTO]
+      });
 };
 
 NefitEasyAccessory.prototype.getTemperature = function(type, prop, callback) {
