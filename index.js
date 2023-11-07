@@ -44,7 +44,7 @@ function NefitEasyAccessory(log, config) {
 
   this.service
     .getCharacteristic(Characteristic.CurrentHeatingCoolingState)
-    .on('get', this.getCurrentState.bind(this, Characteristic.CurrentHeatingCoolingState.OFF))
+    .on('get', this.getCurrentState.bind(this))
     .setProps(
       {validValues:
         [Characteristic.CurrentHeatingCoolingState.OFF, 
@@ -53,11 +53,10 @@ function NefitEasyAccessory(log, config) {
 
   this.service
     .getCharacteristic(Characteristic.TargetHeatingCoolingState)
-    .on('get', this.getCurrentState.bind(this, Characteristic.TargetHeatingCoolingState.AUTO))
+    .on('get', (callback) => callback(null, Characteristic.TargetHeatingCoolingState.AUTO))
     .setProps(
       {validValues:
-        [Characteristic.TargetHeatingCoolingState.HEAT,
-         Characteristic.TargetHeatingCoolingState.AUTO]
+        [Characteristic.TargetHeatingCoolingState.AUTO]
       });
 };
 
@@ -95,7 +94,7 @@ NefitEasyAccessory.prototype.setTemperature = function(temp, callback) {
   });
 };
 
-NefitEasyAccessory.prototype.getCurrentState = function(offState, callback) {
+NefitEasyAccessory.prototype.getCurrentState = function(callback) {
   this.log.debug('Getting current state..');
 
   this.client.connect().then(() => {
@@ -106,7 +105,7 @@ NefitEasyAccessory.prototype.getCurrentState = function(offState, callback) {
     this.log.debug('...current state is', state);
     return callback(null,
       isHeating ? Characteristic.CurrentHeatingCoolingState.HEAT :
-                  offState
+                  Characteristic.CurrentHeatingCoolingState.OFF
     );
   }).catch((e) => {
     console.error(e);
