@@ -40,13 +40,13 @@ function NefitEasyAccessory(log, config) {
     .getCharacteristic(Characteristic.TargetTemperature)
     .on('get', this.getTemperature.bind(this, 'target', 'temp setpoint'))
     .on('set', this.setTemperature.bind(this))
-    .setProps({maxValue: 30});
+    .setProps({minValue: 5, maxValue: 30, minStep: 0.5});
 
   this.service
     .getCharacteristic(Characteristic.CurrentHeatingCoolingState)
     .on('get', this.getCurrentState.bind(this, Characteristic.CurrentHeatingCoolingState.OFF))
     .setProps(
-      {validValues: 
+      {validValues:
         [Characteristic.CurrentHeatingCoolingState.OFF, 
          Characteristic.CurrentHeatingCoolingState.HEAT]
       });
