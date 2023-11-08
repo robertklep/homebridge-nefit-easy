@@ -42,7 +42,8 @@ Once you have that working, edit `~/.homebridge/config.json` and add a new acces
             "serialNumber" : "NEFIT_SERIAL_NUMBER",
             "accessKey"    : "NEFIT_ACCESS_KEY",
             "password"     : "NEFIT_PASSWORD"
-        }
+        },
+        "outdoorTemp": "enable"
     }
 ]
 ```
@@ -50,6 +51,7 @@ Once you have that working, edit `~/.homebridge/config.json` and add a new acces
 * The `name` will be the identifier that you can use, for example, in Siri commands;
 * Replace `NEFIT_*` with the correct values;
 * Any additional options get passed to the [`nefit-easy-core` constructor](https://github.com/robertklep/nefit-easy-core#constructor).
+* The value of `outdoorTemp` can be either `"enable"` or `"disable"`. This determines if a temperature sensor accessory is added with the outdoor temperature of the Nefit device.
 
 ## Supported actions
 
