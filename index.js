@@ -4,7 +4,7 @@ var Service, Characteristic;
 module.exports = function(homebridge) {
   Service        = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
-  
+
   homebridge.registerAccessory('homebridge-nefit-easy', 'NefitEasy', NefitEasyAccessory);
   homebridge.registerAccessory('homebridge-nefit-easy', 'NefitEasyOutdoorTemp', NefitEasyAccessoryOutdoorTemp);
 };
@@ -83,7 +83,14 @@ const nefitEasyGetTemp = function(type, prop, skipOutdoor, callback) {
       return callback(null, temp);
     }
     else {
-      return callback(new Error("Device returned NaN as temperature value."));
+      // Return previous value if the device returns NaN.
+      if (prop == 'in house temp' || prop == 'outdoor temp') {
+        temp = this.service.getCharacteristic(Characteristic.CurrentTemperature).value;
+      }
+      else {
+        temp = this.service.getCharacteristic(Characteristic.TargetTemperature).value;
+      }
+      return callback(null, temp);
     }
   }).catch((e) => {
     console.error(e);
