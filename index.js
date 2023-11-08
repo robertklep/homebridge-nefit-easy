@@ -22,7 +22,6 @@ function NefitEasyAccessory(log, config) {
   this.serialNumber = creds.serialNumber;
 
   this.thermostatService = new Service.Thermostat(this.name);
-  this.outdoorTempService = new Service.TemperatureSensor(this.name + " outdoor temp");
   this.client  = NefitEasyClient(creds);
 
   // Establish connection with device.
@@ -61,9 +60,13 @@ function NefitEasyAccessory(log, config) {
         [Characteristic.TargetHeatingCoolingState.AUTO]
       });
 
-  this.outdoorTempService
-    .getCharacteristic(Characteristic.CurrentTemperature)
-    .on('get', this.getTemperature.bind(this, 'outdoor', 'outdoor temp', false));
+  if (!(typeof config.outdoorTemp == 'string' && config.outdoorTemp == 'disable')) {
+    this.outdoorTempService = new Service.TemperatureSensor(this.name + " outdoor temp");
+    
+    this.outdoorTempService
+      .getCharacteristic(Characteristic.CurrentTemperature)
+      .on('get', this.getTemperature.bind(this, 'outdoor', 'outdoor temp', false));
+    }
 };
 
 NefitEasyAccessory.prototype.getTemperature = function(type, prop, skipOutdoor, callback) {
