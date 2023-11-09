@@ -44,8 +44,7 @@ Once you have that working, edit `~/.homebridge/config.json` and add a new acces
             "serialNumber" : "NEFIT_SERIAL_NUMBER",
             "accessKey"    : "NEFIT_ACCESS_KEY",
             "password"     : "NEFIT_PASSWORD"
-        },
-        "outdoorTemp": "enable"
+        }
     }
 ]
 ```
