@@ -58,7 +58,7 @@ function NefitEasyAccessory(log, config) {
     .getCharacteristic(Characteristic.CurrentHeatingCoolingState)
     .on('get', this.getCurrentState.bind(this))
     .setProps(
-      {validValues: [Characteristic.CurrentHeatingCoolingState.OFF, 
+      {validValues: [Characteristic.CurrentHeatingCoolingState.OFF,
                      Characteristic.CurrentHeatingCoolingState.HEAT]
       });
 
