@@ -80,15 +80,27 @@ const nefitEasyGetTemp = function(type, prop, skipOutdoor, callback) {
       return callback(null, temp);
     }
     else {
-      // Return last known value if the device returns NaN.
-      // This is needed to keep the service responsive.
-      if (prop == 'in house temp' || prop == 'outdoor temp') {
-        temp = this.service.getCharacteristic(Characteristic.CurrentTemperature).value;
-      }
-      else {
-        temp = this.service.getCharacteristic(Characteristic.TargetTemperature).value;
-      }
-      return callback(null, temp);
+      this.log.debug('Request for temperature resulted in invalid value: %s', temp);
+
+      // Try one more time, this almost always results in a valid value.
+      this.client.status(skipOutdoor).then((newStatus) => {
+        var newTemp = newStatus[prop];
+        if (!isNaN(newTemp) && isFinite(newTemp)) {
+          this.log.debug("Retry request for temperature resulted in valid value: %s", newTemp);
+          return callback(null, newTemp);
+        }
+        else {
+          this.log.debug("Retry request for temperature resulted in invalid value again: %s", newTemp);
+
+          // Return last known value, needed to keep service responsive for Siri.
+          if (prop == 'in house temp' || prop == 'outdoor temp') {
+            return callback(null, this.service.getCharacteristic(Characteristic.CurrentTemperature).value);
+          }
+          else if (prop == 'temp setpoint') {
+            return callback(null, this.service.getCharacteristic(Characteristic.TargetTemperature).value);
+          }
+        }
+      });
     }
   }).catch((e) => {
     console.error(e);
