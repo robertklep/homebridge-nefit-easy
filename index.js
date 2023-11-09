@@ -41,7 +41,8 @@ function NefitEasyAccessory(log, config) {
 
   this.service
     .getCharacteristic(Characteristic.TemperatureDisplayUnits)
-    .on('get', (callback) => callback(null, Characteristic.TemperatureDisplayUnits.CELSIUS));
+    .on('get', (callback) => callback(null, Characteristic.TemperatureDisplayUnits.CELSIUS))
+    .setProps({validValues: [Characteristic.TemperatureDisplayUnits.CELSIUS]});;
 
   this.service
     .getCharacteristic(Characteristic.CurrentTemperature)
@@ -57,18 +58,14 @@ function NefitEasyAccessory(log, config) {
     .getCharacteristic(Characteristic.CurrentHeatingCoolingState)
     .on('get', this.getCurrentState.bind(this))
     .setProps(
-      {validValues:
-        [Characteristic.CurrentHeatingCoolingState.OFF, 
-         Characteristic.CurrentHeatingCoolingState.HEAT]
+      {validValues: [Characteristic.CurrentHeatingCoolingState.OFF, 
+                     Characteristic.CurrentHeatingCoolingState.HEAT]
       });
 
   this.service
     .getCharacteristic(Characteristic.TargetHeatingCoolingState)
     .on('get', (callback) => callback(null, Characteristic.TargetHeatingCoolingState.AUTO))
-    .setProps(
-      {validValues:
-        [Characteristic.TargetHeatingCoolingState.AUTO]
-      });
+    .setProps({validValues: [Characteristic.TargetHeatingCoolingState.AUTO]});
 };
 
 const nefitEasyGetTemp = function(type, prop, skipOutdoor, callback) {
@@ -83,7 +80,8 @@ const nefitEasyGetTemp = function(type, prop, skipOutdoor, callback) {
       return callback(null, temp);
     }
     else {
-      // Return previous value if the device returns NaN.
+      // Return last known value if the device returns NaN.
+      // This is needed to keep the service responsive.
       if (prop == 'in house temp' || prop == 'outdoor temp') {
         temp = this.service.getCharacteristic(Characteristic.CurrentTemperature).value;
       }
