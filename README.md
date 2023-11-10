@@ -79,3 +79,4 @@ To also use the outdoor temperature measured by the Nefit Easy device, add a `Ne
 * Getting the current temperature
 * Getting the target temperature
 * Setting the target temperature
+* Getting the outside temperature (optional)
