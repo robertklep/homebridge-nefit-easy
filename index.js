@@ -31,9 +31,11 @@ function NefitEasyAccessory(log, config) {
   }
 
   this.serialNumber = creds.serialNumber;
-
   this.service = new Service.Thermostat(this.name);
-  deviceClient  = NefitEasyClient(creds);
+  
+  if (typeof deviceClient === 'undefined') {
+    deviceClient  = NefitEasyClient(creds);
+  }
 
   // Establish connection with device.
   deviceClient.connect().catch((e) => {
@@ -152,9 +154,11 @@ function NefitEasyAccessoryOutdoorTemp(log, config) {
   }
 
   this.serialNumber = creds.serialNumber;
-
   this.service = new Service.TemperatureSensor(this.name);
-  deviceClient  = NefitEasyClient(creds);
+
+  if (typeof deviceClient === 'undefined') {
+    deviceClient  = NefitEasyClient(creds);
+  }
 
   // Establish connection with device.
   deviceClient.connect().catch((e) => {
