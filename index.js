@@ -71,9 +71,7 @@ function NefitEasyAccessory(log, config) {
 const nefitEasyGetTemp = function(type, prop, skipOutdoor, callback) {
   this.log.debug('Getting %s temperature...', type);
 
-  this.client.connect().then(() => {
-    return this.client.status(skipOutdoor);
-  }).then((status) => {
+  this.client.status(skipOutdoor).then((status) => {
     var temp = status[prop];
     if (!isNaN(temp) && isFinite(temp)) {
       this.log.debug('...%s temperature is %s', type, temp);
@@ -115,9 +113,7 @@ NefitEasyAccessory.prototype.setTemperature = function(temp, callback) {
   temp = Math.round(temp * 2) / 2;
 
   this.log.info('Setting temperature to %s', temp);
-  this.client.connect().then(() => {
-    return this.client.setTemperature(temp);
-  }).then(() => {
+  this.client.setTemperature(temp).then(() => {
     return callback();
   }).catch((e) => {
     return callback(e);
@@ -127,9 +123,7 @@ NefitEasyAccessory.prototype.setTemperature = function(temp, callback) {
 NefitEasyAccessory.prototype.getCurrentState = function(callback) {
   this.log.debug('Getting current state..');
 
-  this.client.connect().then(() => {
-    return this.client.status();
-  }).then((status) => {
+  this.client.status(true).then((status) => {
     var state     = status['boiler indicator'];
     var isHeating = state === 'central heating';
     this.log.debug('...current state is', state);
