@@ -28,6 +28,8 @@ CipherString = DEFAULT
 
 ## Configuration
 
+### Thermostat
+
 First, you need a working Homebridge installation.
 
 Once you have that working, edit `~/.homebridge/config.json` and add a new accessory:
@@ -51,8 +53,30 @@ Once you have that working, edit `~/.homebridge/config.json` and add a new acces
 * Replace `NEFIT_*` with the correct values;
 * Any additional options get passed to the [`nefit-easy-core` constructor](https://github.com/robertklep/nefit-easy-core#constructor).
 
+### Outdoor temperature
+
+To also use the outdoor temperature measured by the Nefit Easy device, add a `NefitEasyOutdoorTemp` accessory to `~/.homebridge/config.json`:
+
+```
+"accessories": [
+    ...
+    {
+        "accessory" : "NefitEasyOutdoorTemp",
+        "name"      : "buitentemperatuur",
+        "options"   : {
+            "serialNumber" : "NEFIT_SERIAL_NUMBER",
+            "accessKey"    : "NEFIT_ACCESS_KEY",
+            "password"     : "NEFIT_PASSWORD"
+        }
+    }
+]
+```
+
+*All credentials options should be set for both the `NefitEasy` and the `NefitEasyOutdoorTemp` device.*
+
 ## Supported actions
 
 * Getting the current temperature
 * Getting the target temperature
 * Setting the target temperature
+* Getting the outside temperature (optional)
