@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Since I stopped using Homebridge many years ago, and also haven't had a Nefit Easy for more than 4 years, this plugin is deprecated. It may still work for you, or it may not, but I cannot provide support for it.
+
 # Homebridge Nefit Easy™ plugin
 
 This is a plugin for [Homebridge](https://github.com/nfarina/homebridge) to allow controlling your Nefit Easy™ (aka Worcester Wave™, Junkers Control™) thermostat through iOS' HomeKit.
